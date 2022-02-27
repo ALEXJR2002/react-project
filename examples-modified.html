@@ -37,21 +37,32 @@
     class Timer extends React.Component {
         constructor(props) {
             super(props);
-            this.state = { hour: 0, minutes: 0, seconds: 0 };
+            this.state = { hour: 0, minutes: 0, seconds: 0, otherHour: 0, otherMinutes: 0, otherSeconds: 0 };
         }
 
         tick() {
             if (this.state.seconds === 59) {
-                this.setState(state => ({minutes: state.minutes + 1, seconds: 1}));
+                this.setState(state => ({minutes: state.minutes + 1, seconds: 0}));
             }else if (this.state.minutes === 59) {
-                this.setState(state => ({hour: state.hour + 1, minutes: 1, seconds: 1}))
+                this.setState(state => ({hour: state.hour + 1, minutes: 0, seconds: 0}))
             }else {
                 this.setState(state => ({seconds: state.seconds + 1}));
             }
         }
 
+        otherTick() {
+            if (this.state.otherSeconds === 9) {
+                this.setState(state => ({otherMinutes: state.otherMinutes + 1, otherSeconds: 0}));
+            }else if (this.state.otherMinutes === 9) {
+                this.setState(state => ({otherHour: state.otherHour + 1, otherMinutes: 0, otherSeconds: 0}))
+            }else {
+                this.setState(state => ({otherSeconds: state.otherSeconds + 1}));
+            }
+        }
+
         componentDidMount() {
             this.interval = setInterval(() => this.tick(), 1000);
+            this.interval = setInterval(() => this.otherTick(), 1000)
         }
 
         componentWillUnmount() {
@@ -61,7 +72,8 @@
         render() {
             return (
             <div>
-                Time (hh:mm:ss) : {this.state.hour} : {this.state.minutes} : {this.state.seconds}
+                <p>A Stateful Component (hh:mm:ss) : {this.state.hour} : {this.state.minutes} : {this.state.seconds}</p>  
+                <p>A Stateful Component V2 (hh:mm:ss) : {this.state.otherHour} : {this.state.otherMinutes} : {this.state.otherSeconds}</p> 
             </div>
             );
         }
