@@ -13,107 +13,160 @@
 </head>
 <body>
     <div id="root"></div>
+    <div id="timer"></div>
     <script type="text/babel">
-        class Square extends React.Component {
+        class Timer extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { minutes: 1, seconds: 0 };
+            }
+
+            tick() {
+                if (this.state.minutes === 1) {
+                    this.setState(state => ({minutes: state.minutes - 1, seconds: 59}));
+                }else if (this.state.seconds === 0) {
+                    if (confirm("Se acabó el tiempo. Gracias por jugar.\n¿Desea continuar?")){
+                        location.reload();
+                    }else {
+                        window.close();
+                    }
+                    
+                    
+                }else {
+                    this.setState(state => ({seconds: state.seconds - 1}));
+                }
+            }
+
+            componentDidMount() {
+                this.interval = setInterval(() => this.tick(), 1000);
+            }
+
+            componentWillUnmount() {
+                clearInterval(this.interval);
+            }
+
             render() {
                 return (
-                <button className="square">
-                    {/* TODO */}
-                </button>
+                <div>
+                    <p>Timer : {this.state.minutes} : {this.state.seconds}</p>  
+                </div>
                 );
             }
         }
 
+        ReactDOM.render(
+            <Timer />,
+            document.getElementById('timer')
+        );
+
+        
+                
+        function Square(props) {
+            return (
+                <button className="square">
+                    {props.value}
+                </button>
+            );
+        }
+
+
+        function generateRandomCell () {
+            let randomNumber = Math.ceil(Math.random()*8);
+            let randomLetter = String.fromCharCode(65 + Math.ceil(Math.random()*8));
+
+            return "" + randomLetter + randomNumber
+        }
+
         class Board extends React.Component {
-            renderSquare() {
-            return <Square />;
+            renderSquare(i) {
+            return <Square value = {i}/>;
             }
 
             render() {
-                const status = 'Next player: X';
+                const status = 'Cell: ' + generateRandomCell();
 
                 return (
                 <div>
                     <div className="status">{status}</div>
                     <div className="board-row">
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
+                    {this.renderSquare("H1")}
+                    {this.renderSquare("H2")}
+                    {this.renderSquare("H3")}
+                    {this.renderSquare("H4")}
+                    {this.renderSquare("H5")}
+                    {this.renderSquare("H6")}
+                    {this.renderSquare("H7")}
+                    {this.renderSquare("H8")}
                     </div>
                     <div className="board-row">
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
+                    {this.renderSquare("G1")}
+                    {this.renderSquare("G2")}
+                    {this.renderSquare("G3")}
+                    {this.renderSquare("G4")}
+                    {this.renderSquare("G5")}
+                    {this.renderSquare("G6")}
+                    {this.renderSquare("G7")}
+                    {this.renderSquare("G8")}
                     </div>
                     <div className="board-row">
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
+                    {this.renderSquare("F1")}
+                    {this.renderSquare("F2")}
+                    {this.renderSquare("F3")}
+                    {this.renderSquare("F4")}
+                    {this.renderSquare("F5")}
+                    {this.renderSquare("F6")}
+                    {this.renderSquare("F7")}
+                    {this.renderSquare("F8")}
                     </div>
                     <div className="board-row">
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
+                    {this.renderSquare("E1")}
+                    {this.renderSquare("E2")}
+                    {this.renderSquare("E3")}
+                    {this.renderSquare("E4")}
+                    {this.renderSquare("E5")}
+                    {this.renderSquare("E6")}
+                    {this.renderSquare("E7")}
+                    {this.renderSquare("E8")}
                     </div>
                     <div className="board-row">
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
+                    {this.renderSquare("D1")}
+                    {this.renderSquare("D2")}
+                    {this.renderSquare("D3")}
+                    {this.renderSquare("D4")}
+                    {this.renderSquare("D5")}
+                    {this.renderSquare("D6")}
+                    {this.renderSquare("D7")}
+                    {this.renderSquare("D8")}
                     </div>
                     <div className="board-row">
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
+                    {this.renderSquare("C1")}
+                    {this.renderSquare("C2")}
+                    {this.renderSquare("C3")}
+                    {this.renderSquare("C4")}
+                    {this.renderSquare("C5")}
+                    {this.renderSquare("C6")}
+                    {this.renderSquare("C7")}
+                    {this.renderSquare("C8")}
                     </div>
                     <div className="board-row">
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
+                    {this.renderSquare("B1")}
+                    {this.renderSquare("B2")}
+                    {this.renderSquare("B3")}
+                    {this.renderSquare("B4")}
+                    {this.renderSquare("B5")}
+                    {this.renderSquare("B6")}
+                    {this.renderSquare("B7")}
+                    {this.renderSquare("B8")}
                     </div>
                     <div className="board-row">
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
+                    {this.renderSquare("A1")}
+                    {this.renderSquare("A2")}
+                    {this.renderSquare("A3")}
+                    {this.renderSquare("A4")}
+                    {this.renderSquare("A5")}
+                    {this.renderSquare("A6")}
+                    {this.renderSquare("A7")}
+                    {this.renderSquare("A8")}
                     </div>
                 </div>
 
@@ -123,14 +176,15 @@
 
         class Game extends React.Component {
             render() {
+                
                 return (
                 <div className="game">
                     <div className="game-board">
                     <Board />
                     </div>
                     <div className="game-info">
-                    <div>{/* status */}</div>
-                    <ol>{/* TODO */}</ol>
+                        <ol>{/* TODO */}</ol>
+                        <button>Start</button>
                     </div>
                 </div>
                 );
